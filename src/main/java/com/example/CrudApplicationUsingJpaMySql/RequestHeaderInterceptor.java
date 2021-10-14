@@ -33,7 +33,7 @@ public class RequestHeaderInterceptor implements HandlerInterceptor {
     @SneakyThrows //allows you to throw checked exceptions without using the throws declaration
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-       final AllowAnnonymous allowAnnonymous = ((HandlerMethod)handler).getMethod().getAnnotation((AllowAnnonymous.class));
+        final AllowAnnonymous allowAnnonymous = ((HandlerMethod)handler ).getMethod().getAnnotation((AllowAnnonymous.class));
         String tokenHeader = request.getHeader("Authorization");
         String email = null;
         String token = null;
@@ -46,7 +46,6 @@ public class RequestHeaderInterceptor implements HandlerInterceptor {
             response.addHeader("Interceptor", "Authorization not sent");
             log.info("Authorization not sent.");
             throw new NotAuthorizedException();
-
 
         }
         else{

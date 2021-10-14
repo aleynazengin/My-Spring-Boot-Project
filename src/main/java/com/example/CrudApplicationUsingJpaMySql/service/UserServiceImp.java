@@ -65,10 +65,10 @@ public class UserServiceImp implements UserService{
         simpleMailMessage.setSubject(subject);
         if (!user.isEmailVerified())
         {
-            simpleMailMessage.setText(content+"http://localhost:8080/confirm-email?id="+ user.getId()+"&code="+code);
+            simpleMailMessage.setText(content+"http://localhost:8084/confirm-email?id="+ user.getId()+"&code="+code);
         }
         else {
-            simpleMailMessage.setText("To reset your password click here: " + "http://localhost:8080/confirm-email?id=" + user.getId() + "&code=" + code);
+            simpleMailMessage.setText("To reset your password click here: " + "http://localhost:8084/confirm-email?id=" + user.getId() + "&code=" + code);
         }
         try{
             mailSender.send(simpleMailMessage);

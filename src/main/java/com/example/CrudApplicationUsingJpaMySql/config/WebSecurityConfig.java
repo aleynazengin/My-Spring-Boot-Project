@@ -16,12 +16,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true) //prePostEnabled property enables Spring Security pre/post annotations.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.cors()
+                .and()
+                .csrf().disable();
     }
+
 
 }

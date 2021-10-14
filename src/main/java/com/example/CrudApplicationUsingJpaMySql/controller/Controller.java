@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +25,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 public class Controller {
     private UserService userService;
     private UserRepository userRepository;
@@ -198,9 +201,14 @@ public class Controller {
         return "Welcome";
     }
 
+
     @RequestMapping( value = "/api/hello", method = RequestMethod.GET)
-    public String hello(){
-        return "Hello";
+    public String hello() throws NotAuthorizedException {
+        String token= ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization");
+        token = token.substring(7);
+        String email = jwtUtil.getSubject(token);
+        User user= userRepository.findByEmail(email);
+        return "Welcome "+user.getUsername();
     }
 
     @RequestMapping( value = "/api/score", method = RequestMethod.POST)
